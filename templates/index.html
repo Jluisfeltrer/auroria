@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Las Tierras de Auroria</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     CREACIÓN DEL HÉROE
+======================================================= -->
+
+<section id="pantalla-creacion" class="pantalla">
+
+    <div class="panel-creacion">
+
+        <h1>⚔️ Las Tierras de Auroria</h1>
+
+        <p>
+            Antes de comenzar tu aventura,
+            crea a tu héroe.
+        </p>
+
+
+        <h2>Elige tu avatar</h2>
+
+
+        <div class="avatares">
+
+            <button
+                class="avatar-opcion seleccionado"
+                data-avatar="🧙‍♂️"
+            >
+                🧙‍♂️
+                <span>Mago</span>
+            </button>
+
+
+            <button
+                class="avatar-opcion"
+                data-avatar="🧝‍♀️"
+            >
+                🧝‍♀️
+                <span>Elfa</span>
+            </button>
+
+
+            <button
+                class="avatar-opcion"
+                data-avatar="🧔"
+            >
+                🧔
+                <span>Guerrero</span>
+            </button>
+
+
+            <button
+                class="avatar-opcion"
+                data-avatar="🧝‍♂️"
+            >
+                🧝‍♂️
+                <span>Explorador</span>
+            </button>
+
+        </div>
+
+
+        <label for="nombre-heroe">
+            Nombre de tu héroe
+        </label>
+
+
+        <input
+            id="nombre-heroe"
+            type="text"
+            maxlength="20"
+            placeholder="Escribe tu nombre..."
+        >
+
+
+        <button
+            class="boton-principal"
+            onclick="crearHeroe()"
+        >
+            ⚔️ Comenzar aventura
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     JUEGO
+======================================================= -->
+
+<main
+    id="pantalla-juego"
+    class="juego pantalla-oculta"
+>
+
+
+    <!-- CABECERA -->
+
+    <header class="cabecera">
+
+        <h1>
+            ⚔️ Las Tierras de Auroria
+        </h1>
+
+        <p>
+            Tu aventura comienza...
+        </p>
+
+    </header>
+
+
+
+    <!-- PERSONAJE -->
+
+    <section class="personaje">
+
+
+        <div
+            id="avatar-jugador"
+            class="avatar"
+        >
+            🧙‍♂️
+        </div>
+
+
+        <div class="datos">
+
+            <h2 id="nombre">
+                Héroe
+            </h2>
+
+
+            <p>
+                ⭐ Nivel
+                <span id="nivel">
+                    1
+                </span>
+
+                · XP
+                <span id="xp">
+                    0
+                </span>
+            </p>
+
+
+            <div class="barra">
+
+                <div
+                    id="barra-vida"
+                    class="vida"
+                    style="width:100%;"
+                >
+
+                    <span id="vida">
+                        100
+                    </span>
+
+                    /
+
+                    <span id="vida-max">
+                        100
+                    </span>
+
+                    ❤️
+
+                </div>
+
+            </div>
+
+
+            <div class="estadisticas">
+
+                <span>
+                    ⚔️ Ataque:
+                    <strong id="ataque">
+                        12
+                    </strong>
+                </span>
+
+
+                <span>
+                    🛡️ Defensa:
+                    <strong id="defensa">
+                        5
+                    </strong>
+                </span>
+
+
+                <span>
+                    💰 Oro:
+                    <strong id="oro">
+                        30
+                    </strong>
+                </span>
+
+
+                <span>
+                    🧪 Pociones:
+                    <strong id="pociones">
+                        2
+                    </strong>
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- AVENTURA -->
+
+    <section class="aventura">
+
+        <h2>
+            🌲 Bosque de Auroria
+        </h2>
+
+
+        <p id="mensaje">
+
+            Te encuentras frente a un
+            antiguo bosque.
+
+            El viento mueve las hojas
+            y algo parece observarte
+            desde las sombras...
+
+        </p>
+
+
+
+        <!-- ENEMIGO -->
+
+        <div
+            id="datos-enemigo"
+            class="enemigo-oculto"
+        >
+
+            <div class="enemigo-avatar">
+                👹
+            </div>
+
+
+            <h2 id="enemigo-nombre">
+                Enemigo
+            </h2>
+
+
+            <div class="barra barra-enemigo">
+
+                <div
+                    id="barra-enemigo"
+                    class="vida"
+                    style="width:100%;"
+                >
+
+                    <span id="enemigo-vida">
+                        0
+                    </span>
+
+                    ❤️
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ACCIONES -->
+
+    <section class="acciones">
+
+
+        <button
+            id="boton-explorar"
+            onclick="explorar()"
+        >
+            🌲 Explorar
+        </button>
+
+
+        <button
+            id="boton-atacar"
+            onclick="atacar()"
+            disabled
+        >
+            ⚔️ Atacar
+        </button>
+
+
+        <button
+            id="boton-pocion"
+            onclick="usarPocion()"
+        >
+            🧪 Poción
+        </button>
+
+
+        <button
+            id="boton-huir"
+            onclick="huir()"
+            disabled
+        >
+            🏃 Huir
+        </button>
+
+
+        <button
+            id="boton-tienda"
+            onclick="abrirTienda()"
+        >
+            🏪 Tienda
+        </button>
+
+
+        <button
+            id="boton-estadisticas"
+            onclick="mostrarEstadisticas()"
+        >
+            📊 Acumulados
+        </button>
+
+    </section>
+
+
+
+    <!-- REGISTRO -->
+
+    <section class="registro">
+
+        <h3>
+            📜 Registro de aventura
+        </h3>
+
+
+        <div id="registro-texto">
+
+            La aventura está a punto de comenzar...
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         TIENDA
+    =================================================== -->
+
+    <section
+        id="tienda"
+        class="ventana-oculta"
+    >
+
+        <div class="panel-tienda">
+
+            <h2>
+                🏪 Tienda de Auroria
+            </h2>
+
+
+            <p>
+                Oro disponible:
+                <strong id="oro-tienda">
+                    30
+                </strong>
+                💰
+            </p>
+
+
+            <div class="productos">
+
+
+                <div class="producto">
+
+                    <div class="producto-icono">
+                        🧪
+                    </div>
+
+                    <h3>
+                        Poción
+                    </h3>
+
+                    <p>
+                        Recupera vida durante
+                        el combate.
+                    </p>
+
+                    <strong>
+                        15 💰
+                    </strong>
+
+                    <button
+                        onclick="comprar('pocion')"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
+
+
+
+                <div class="producto">
+
+                    <div class="producto-icono">
+                        ⚔️
+                    </div>
+
+                    <h3>
+                        Entrenamiento
+                    </h3>
+
+                    <p>
+                        Aumenta tu ataque
+                        permanentemente.
+                    </p>
+
+                    <strong>
+                        50 💰
+                    </strong>
+
+                    <button
+                        onclick="comprar('ataque')"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
+
+
+
+                <div class="producto">
+
+                    <div class="producto-icono">
+                        🛡️
+                    </div>
+
+                    <h3>
+                        Armadura
+                    </h3>
+
+                    <p>
+                        Aumenta tu defensa
+                        permanentemente.
+                    </p>
+
+                    <strong>
+                        50 💰
+                    </strong>
+
+                    <button
+                        onclick="comprar('defensa')"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="boton-cerrar"
+                onclick="cerrarTienda()"
+            >
+                🚪 Salir de la tienda
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         ESTADÍSTICAS ACUMULADAS
+    =================================================== -->
+
+    <section
+        id="estadisticas-panel"
+        class="ventana-oculta"
+    >
+
+        <div class="panel-tienda">
+
+            <h2>
+                📊 Estadísticas acumuladas
+            </h2>
+
+
+            <div class="acumulados">
+
+
+                <div>
+                    <span>⭐</span>
+                    <strong id="acum-xp">
+                        0
+                    </strong>
+                    <small>XP actual</small>
+                </div>
+
+
+                <div>
+                    <span>👹</span>
+                    <strong id="acum-enemigos">
+                        0
+                    </strong>
+                    <small>Enemigos derrotados</small>
+                </div>
+
+
+                <div>
+                    <span>💰</span>
+                    <strong id="acum-oro">
+                        0
+                    </strong>
+                    <small>Oro conseguido</small>
+                </div>
+
+
+                <div>
+                    <span>⚔️</span>
+                    <strong id="acum-dano">
+                        0
+                    </strong>
+                    <small>Daño causado</small>
+                </div>
+
+
+                <div>
+                    <span>💔</span>
+                    <strong id="acum-recibido">
+                        0
+                    </strong>
+                    <small>Daño recibido</small>
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="boton-cerrar"
+                onclick="cerrarEstadisticas()"
+            >
+                ← Volver
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='game.js') }}"
+></script>
+
+
+</body>
+
+</html>
